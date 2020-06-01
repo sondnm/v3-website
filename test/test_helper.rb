@@ -26,10 +26,17 @@ class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
 
   # Run tests in parallel with specified workers
-  #parallelize(workers: :number_of_processors)
-  parallelize(workers: 1)
+  #parallelize(workers: :number_of_processors, with: :threads)
+  #parallelize(workers: 2, with: :threads)
+  parallelize(workers: 2)
 
-  def setup
+  setup do
+    # This is here to make it easier to observe what's 
+    # happening in MySQL.
+    sleep(1)
+
+    # Ignore this - it's just a general catch for now
+    # and unrelated.
     RestClient.stubs(:post)
   end
 
