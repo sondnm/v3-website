@@ -4,15 +4,24 @@ import { Conversation } from './conversation-list/Conversation'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 
 export function ConversationList({ request, setPage }) {
-  const { status, resolvedData, latestData } = usePaginatedRequestQuery(
-    'mentor-conversations-list',
-    request
-  )
+  const {
+    status,
+    resolvedData,
+    latestData,
+    refetch,
+  } = usePaginatedRequestQuery('mentor-conversations-list', request)
 
   return (
     <div className="conversations-list">
       {status === 'loading' && <p>Loading</p>}
-      {status === 'error' && <p>Something went wrong</p>}
+      {status === 'error' && (
+        <>
+          <p>Something went wrong</p>
+          <button onClick={() => refetch()} aria-label="Retry">
+            Retry
+          </button>
+        </>
+      )}
       {status === 'success' && (
         <>
           <table>
